@@ -1,0 +1,62 @@
+#!/usr/pkg/bin/perl
+
+use common::sense;
+use HTTP::Tiny;
+use Term::ReadKey;
+
+
+#
+# Get credential and return them via an array list (username, password).
+#
+sub
+credential()
+{
+	my ($username, $password);
+
+	print "username: ";
+	$username = <>;
+	print "password: ";
+	ReadMode "noecho";
+	$password = <>;
+	ReadMode "restore";
+	print "\n";
+	chomp($username, $password);
+
+	return ($username, $password);
+}
+
+
+#
+# Properly login through the form given a username and password.
+# die() in case of insuccess.
+#
+sub
+login($$)
+{
+	my ($user, $pass) = @_;
+	my ($auth, $ht, $res, $url);
+
+	$ht = HTTP::Tiny->new();
+
+	$url = "https://captive.diiga.univpm.it/login.php";
+	$auth = {
+		username => $user,
+		password => $pass,
+	};
+
+	$res = $ht->post_form($url, $auth);
+
+	if (!$res->{success}) {
+		die "$0: could not login\n";
+	}
+}
+
+
+my ($pass, $user);
+
+($user, $pass) = credential();
+
+for (;;) {
+	login($user, $pass);
+	sleep(310);
+}
