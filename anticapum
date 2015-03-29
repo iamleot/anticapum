@@ -1,6 +1,7 @@
 #!/usr/pkg/bin/perl
 
-use common::sense;
+use strict;
+use warnings;
 use HTTP::Tiny;
 use Term::ReadKey;
 
@@ -53,7 +54,6 @@ login($$)
 
 
 my ($pass, $user);
-
 ($user, $pass) = credential();
 
 for (;;) {
