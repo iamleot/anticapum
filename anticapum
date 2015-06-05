@@ -5,6 +5,11 @@ use warnings;
 use HTTP::Tiny;
 use Term::ReadKey;
 
+use constant {
+	ANTICAPUM_URI => "https://captive.diiga.univpm.it/login.php",
+	ANTICAPUM_SLEEP => 310,
+};
+
 
 #
 # Get credential and return them via an array list (username, password).
@@ -39,7 +44,7 @@ login($$)
 
 	$ht = HTTP::Tiny->new();
 
-	$url = "https://captive.diiga.univpm.it/login.php";
+	$url = ANTICAPUM_URI;
 	$auth = {
 		username => $user,
 		password => $pass,
@@ -58,5 +63,5 @@ my ($pass, $user);
 
 for (;;) {
 	login($user, $pass);
-	sleep(310);
+	sleep(ANTICAPUM_SLEEP);
 }
